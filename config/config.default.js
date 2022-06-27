@@ -26,12 +26,16 @@ module.exports = appInfo => {
     client: {
       url: 'mongodb://127.0.0.1:27017/end',
       options: {
-        useUnifiedTopology: true,
+        useUnifiedTopology: true
       },
       plugins: [],
     },
   };
-
+  config.security = {
+    csrf: {
+      enable: false
+    }
+  }
   return {
     ...config,
     ...userConfig,

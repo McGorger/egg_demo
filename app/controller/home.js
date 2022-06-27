@@ -6,7 +6,7 @@ class HomeController extends Controller {
     const User = this.app.model.User;
     await new User({
       useName: 'lgz',
-      password: '123',
+      password: '1234',
     }).save();
     ctx.body = 'hi, egg111';
   }
