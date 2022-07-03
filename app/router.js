@@ -8,4 +8,5 @@ module.exports = app => {
   router.prefix('/api/v1');
   // router.post('/', controller.user.create);
   router.post('/user', controller.user.create)
+  router.post('/user/login', controller.user.login)
 };

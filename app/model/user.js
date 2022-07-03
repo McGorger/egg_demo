@@ -9,7 +9,7 @@ module.exports = app => {
     },
     password: {
       type: String,
-      select: false,
+      select: true, // 查询中不包含该字段
       required: true
     },
     avatar: {
