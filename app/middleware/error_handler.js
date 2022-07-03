@@ -12,9 +12,7 @@ module.exports = () => {
                 : err.message
             ctx.body = {error};
             if(status == 422) {
-                ctx.body.status = err.statusCode;
-                console.log(12123)
-                
+                ctx.body.status = err.statusCode;                
             }
             console.log(ctx.body, 'ctx.body')
             ctx.status = status;

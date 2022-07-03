@@ -36,6 +36,10 @@ module.exports = appInfo => {
       enable: false
     }
   }
+  config.jwt = {
+    secret: 'd2870eee-431e-4dce-9858-aeb09bd9de07',
+    expiresIn: '1d'
+  }
   config.middleware = [
     'errorHandler'
   ]
