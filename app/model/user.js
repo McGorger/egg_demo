@@ -2,7 +2,7 @@ module.exports = app => {
   const mongoose = app.mongoose;
   const Schema = mongoose.Schema;
   const UserSchema = new Schema({
-    useName: {
+    username: {
       type: String,
       required: true
     },
@@ -14,6 +14,10 @@ module.exports = app => {
     avatar: {
       type: String,
       default: null
+    },
+    email: {
+      type: String,
+      required: true,
     },
     cover: {
       type: String,

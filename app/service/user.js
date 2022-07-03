@@ -1,9 +1,9 @@
 const Service = require('egg').Service;
 class UserService extends Service {
-    get User {
+    get User() {
         return this.app.model.User;
     }
-    findByUsername() {
+    findByUsername(username) {
         return this.User.findOne({
             username
         })
@@ -13,10 +13,11 @@ class UserService extends Service {
             email
         })
     }
-    async createUser(user) {
+    async createUser(data) {
         data.password = this.ctx.helper.md5(data.password);
-       const user = new this.User(data);
+        const user = new this.User(data);
         await user.save();
         return user;
     }
 }
+module.exports = UserService;

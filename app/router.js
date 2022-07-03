@@ -6,5 +6,6 @@
 module.exports = app => {
   const { router, controller } = app;
   router.prefix('/api/v1');
-  router.post('/user', controller.user.create);
+  // router.post('/', controller.user.create);
+  router.post('/user', controller.user.create)
 };
