@@ -36,6 +36,9 @@ module.exports = appInfo => {
       enable: false
     }
   }
+  config,middleware = [
+    'errorHandler'
+  ]
   return {
     ...config,
     ...userConfig,
