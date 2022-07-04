@@ -25,5 +25,13 @@ class UserService extends Service {
             expiresIn: this.app.config.jwt.expiresIn
         });
     }
+    verifyToken(token) {
+        return jwt.verify(token, this.app.config.jwt.secret);
+    }
+    updateUser(data) {
+        return this.User.findByIdAndUpdate(this.ctx.user._id, data, {
+            new: true
+        });
+    }
 }
 module.exports = UserService;
