@@ -33,5 +33,27 @@ class UserService extends Service {
             new: true
         });
     }
+    async subscribe(userId, channelId) {
+        const {Subscription, User} = this.app.model;
+        // 1. 检查是否已经订阅
+        const record = await Subscription.findOne({
+            user: userId,
+            channel: channelId
+        })
+        const user = await User.findById(channelId);
+        // 2. 没有订阅，添加订阅
+        if(!record) {
+            await new Subscription({
+                user: userId,
+                channel: channelId
+            }).save()
+            // 更新用户的订阅数量
+            user.subscribersCount++;
+            await user.save();
+        }
+
+        // 返回user
+        return user;
+    }
 }
 module.exports = UserService;

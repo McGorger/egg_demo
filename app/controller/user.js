@@ -3,11 +3,12 @@ const Controller = require('egg').Controller;
 class UserController extends Controller {
   async create() {
     const body = this.ctx.request.body
+    console.log(body, 123)
     this.ctx.validate({
       username: {type: 'string'},
       email: {type: 'email'},
       password: {type: 'string'}
-    })
+    }, body)
     const userService = this.service.user;
     if(await userService.findByUsername(body.username)) {
       this.ctx.throw(422, '用户已存在');
@@ -79,7 +80,6 @@ class UserController extends Controller {
   async update() {
     // 1.
     const body = this.ctx.request.body
-    console.log(body)
     this.ctx.validate({
       username: {type: 'string', required: false},
       email: {type: 'email', required: false},
@@ -87,7 +87,6 @@ class UserController extends Controller {
       channelDescription: {type: 'string', required: false},
       avatar: {type: 'string', required: false}
     }, body)
-    console.log(body, 123123)
     const userService = this.service.user;
     if(body.email) {
       if(body.email !== this.ctx.user.email && await userService.findByEmail(body.email)) {
@@ -116,7 +115,24 @@ class UserController extends Controller {
       }
     }
   }
-
+  async subscribe() {
+    // 1. 用户不能订阅自己
+    const userId = this.ctx.user._id;
+    const channelId = this.ctx.params.userId;
+    console.log(channelId)
+    if(userId.equals(channelId)) {
+      this.ctx.throw(422, '用户不能订阅自己')
+    }
+    // 2. 添加订阅处理
+    const user = await this.service.user.subscribe(userId, channelId);
+    // 3. 发送响应逻辑
+    this.ctx.body = {
+      user: {
+        ...user.toJSON(),
+        isSubscribed: true
+      }
+    }
+  }
 }
 
 module.exports = UserController;

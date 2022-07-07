@@ -9,9 +9,7 @@ module.exports = () => {
         }
         // 2. 验证token ，无效401
         if(!token) {
-            
             ctx.throw(401);
-            
         }
         try {
             // 3. token 有效， 根据userid获取用户数据
