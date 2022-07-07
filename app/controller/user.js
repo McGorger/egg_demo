@@ -3,7 +3,6 @@ const Controller = require('egg').Controller;
 class UserController extends Controller {
   async create() {
     const body = this.ctx.request.body
-    console.log(body, 123)
     this.ctx.validate({
       username: {type: 'string'},
       email: {type: 'email'},
@@ -128,7 +127,9 @@ class UserController extends Controller {
     // 3. 发送响应逻辑
     this.ctx.body = {
       user: {
-        ...user.toJSON(),
+        ...this.ctx.helper._.pick(user, [
+          'username', 'email', 'avatar', 'cover', 'channelDescription', 'subscribersCount'
+        ]),
         isSubscribed: true
       }
     }

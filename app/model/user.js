@@ -28,7 +28,7 @@ module.exports = app => {
       type: Number,
       default: 0
     },
-    ChannelDescription: {
+    channelDescription: {
       type: String,
       default: null
     },
