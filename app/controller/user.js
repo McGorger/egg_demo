@@ -118,7 +118,6 @@ class UserController extends Controller {
     // 1. 用户不能订阅自己
     const userId = this.ctx.user._id;
     const channelId = this.ctx.params.userId;
-    console.log(channelId)
     if(userId.equals(channelId)) {
       this.ctx.throw(422, '用户不能订阅自己')
     }
@@ -131,6 +130,50 @@ class UserController extends Controller {
           'username', 'email', 'avatar', 'cover', 'channelDescription', 'subscribersCount'
         ]),
         isSubscribed: true
+      }
+    }
+  }
+  async unsubscribe() {
+     // 1. 用户不能订阅自己
+     const userId = this.ctx.user._id;
+     const channelId = this.ctx.params.userId;
+     if(userId.equals(channelId)) {
+       this.ctx.throw(422, '用户不能订阅自己')
+     }
+     // 2. 取消订阅
+     const user = await this.service.user.unsubscribe(userId, channelId);
+     this.ctx.body = {
+      user: {
+        ...this.ctx.helper._.pick(user, [
+          'username', 'email', 'avatar', 'cover', 'channelDescription', 'subscribersCount'
+        ]),
+        isSubscribed: false
+      }
+    }
+  }
+  async getUser() {
+    // 1. 获取订阅的状态
+    let isSubscribed = false;
+    // 2. 获取用户信息
+    if(this.ctx.user) {
+      // 获取订阅记录
+      const record = await this.app.model.Subscription.findOne({
+        user: this.ctx.user._id,
+        channel: this.ctx.params.userId
+      });
+      if(record) {
+        isSubscribed = true;
+      }
+      // 2. 获取用户信息
+      const user = await this.app.model.User.findById(this.ctx.params.userId);
+      // 3. 发送响应
+      this.ctx.body = {
+        user: {
+          ...this.ctx.helper._.pick(user, [
+            'username', 'email', 'avatar', 'cover', 'channelDescription', 'subscribersCount'
+          ]),
+          isSubscribed
+        }
       }
     }
   }

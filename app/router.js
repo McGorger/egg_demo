@@ -12,8 +12,9 @@ module.exports = app => {
   router.post('/users/login', controller.user.login);
   router.post('/user', auth, controller.user.getCurrentUser);
   router.patch('/user', auth, controller.user.update);
-
+  router.get('/user/:userId', app.middleware.auth({required: false}), controller.user.getUser);
 
   // 用户订阅
   router.post('/user/:userId/subscribe', auth, controller.user.subscribe)
+  router.delete('/user/:userId/subscribe', auth, controller.user.unsubscribe)
 };
